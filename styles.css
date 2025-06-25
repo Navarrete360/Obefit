@@ -17,6 +17,12 @@ body {
     padding: 0 20px;
 }
 
+.logo-img {
+  height: 25px; /* Ajusta según necesites */
+  width: auto;
+  object-fit: contain;
+}
+
 /* Animaciones */
 @keyframes fadeInUp {
     from {
@@ -184,7 +190,7 @@ nav {
 
 .phone-mockup {
     width: 300px;
-    height: 600px;
+    height: 500px;
     background: linear-gradient(145deg, #f0f0f0, #cacaca);
     border-radius: 30px;
     padding: 20px;
@@ -193,13 +199,11 @@ nav {
     margin: 0 auto;
 }
 
-.phone-screen {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #07beb8 0%, #3dccc7 100%);
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
+.phone-screen img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
 }
 
 .app-ui {
@@ -235,17 +239,24 @@ nav {
     text-align: center;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #3dccc7;
+    color: #000000;
     margin-bottom: 3rem;
 }
 
+/* Solución más simple con Flexbox */
 .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .feature-card {
+    flex: 0 1 300px; /* No crece, se encoge, base de 300px */
+    width: 100%;
+    max-width: 350px;
     background: linear-gradient(145deg, #c4fff9, #9ceaef);
     padding: 2rem;
     border-radius: 20px;
@@ -296,10 +307,39 @@ nav {
 }
 
 .feature-card p {
-    color: #07beb8;
+    color: #000000;
     line-height: 1.6;
 }
 
+/* Para pantallas grandes, limitar a 3 por fila */
+@media (min-width: 1200px) {
+    .features-grid {
+        justify-content: space-between;
+    }
+    
+    .feature-card {
+        flex: 0 1 calc(33.333% - 1.5rem);
+    }
+    
+    /* Los últimos 2 elementos se centrarán automáticamente */
+    .feature-card:nth-child(4),
+    .feature-card:nth-child(5) {
+        margin: 0 auto;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .features-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .feature-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}
 /* Stats Section */
 .stats {
     padding: 4rem 0;
@@ -325,11 +365,221 @@ nav {
     opacity: 0.9;
 }
 
+/* Carrusel Styles */
+
+.carousel-wrapper {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: visible; /* Cambiado para que las flechas sean visibles */
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.354);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0);
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+.screenshot-item {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 100%;
+}
+
+.celular-mockup {
+  flex-shrink: 0;
+  width: 240px;
+  height: 450px;
+  background: #333;
+  border-radius: 40px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.celular-mockup img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.slide-content {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.slide-content h3 {
+  font-size: 2rem;
+  color: var(--marron-pollada);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.slide-content p {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Navigation - Flechas más separadas */
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.nav-btn {
+  position: absolute;
+  background: rgba(45, 237, 208, 0.9);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: var(--marron-pollada);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: all;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Posicionar flecha izquierda más hacia afuera */
+.nav-btn:first-child {
+  left: -70px;
+}
+
+/* Posicionar flecha derecha más hacia afuera */
+.nav-btn:last-child {
+  right: -70px;
+}
+
+.nav-btn:hover {
+  background: rgba(45, 237, 208, 1);
+  transform: scale(1.1);
+}
+
+/* Dots */
+.carousel-dots {
+  text-align: center;
+  padding: 20px;
+  background: rgba(253, 247, 247, 0)
+}
+
+.dot {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: #feffff;
+  border-radius: 50%;
+  margin: 0 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #3dccc7;
+  transform: scale(1.2);
+}
+
+.dot:hover {
+  background: #3dccc7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .screenshot-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .celular-mockup {
+    width: 200px;
+    height: 350px;
+  }
+  
+  .slide-content {
+    padding-left: 0;
+  }
+  
+  .slide-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .slide-content p {
+    font-size: 1rem;
+  }
+  
+  .carousel-container {
+    height: 600px;
+  }
+  
+  /* En móvil, las flechas menos separadas */
+  .nav-btn:first-child {
+    left: -30px;
+  }
+  
+  .nav-btn:last-child {
+    right: -30px;
+  }
+}
+
+/* Para pantallas muy grandes, separar aún más las flechas */
+@media (min-width: 1200px) {
+  .nav-btn:first-child {
+    left: -80px;
+  }
+  
+  .nav-btn:last-child {
+    right: -80px;
+  }
+}
+
+
 /* Testimonials */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    justify-items: center;
+}
+
 .testimonials {
     padding: 5rem 0;
-    background: #f8f9fa;
-}
+    background: #92fbf4d7;
+}  
 
 .testimonial-card {
     background: white;
